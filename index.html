@@ -1022,6 +1022,19 @@
   .cut-sat:not(.in) .sat-doors b { transform: scaleY(var(--f0)); transition-delay: 0s; }
   .cut-sat .sat-doors i { transition: background-color .45s ease var(--d), box-shadow .45s ease var(--d); }
   .cut-sat:not(.in) .sat-doors i { background: var(--soft); box-shadow: inset 0 0 0 1px var(--line); transition-delay: 0s; }
+  /* version 80: the lesson opening. The bar's names at 13 px with First try lit and its segment at 45% accent (.sbar-segs i.now), no minutes row,
+     a larger why line and the first try's door below, full width */
+  .open-bar .sbar { margin-bottom: 14px; }
+  .open-bar .sbar-row { display: none; }
+  .open-bar .sbar-names { margin-top: 7px; font-size: 13px; font-weight: 600; letter-spacing: 0; line-height: 1.25; }
+  .open-bar .sbar-names span { white-space: nowrap; }
+  .open-bar .sbar-names span.on { font-weight: 700; color: var(--accent-ink); }
+  .why-line.open-why { margin: 0 0 16px; font-size: 17px; line-height: 1.42; }
+  .frame.open-door { flex: none; }
+  @media (max-height: 640px) { .content .frame.open-door { height: 214px; } .content .frame.open-door svg.voter { margin-top: -40px; } }
+  @media (max-height: 580px) { .content .frame.open-door { height: 178px; } .content .frame.open-door svg.voter { margin-top: -48px; } }
+  .cut-open .why-line.open-why { margin-bottom: 12px; }
+  .plan b { text-wrap: balance; }
   @media (prefers-reduced-motion: reduce) {
     .dots3 i { animation: none !important; }
     .voter .fig, .voter .eyes, .voter.knock, .bub, .sms-card, .typing i, .hl, .vid-cap p, .vid-end { animation: none !important; }
@@ -1176,12 +1189,14 @@ const HOME = {
 };
 /* the welcome series: 5 lessons, 5 minutes each (get out the vote at the door) */
 const LESSONS5 = [
-  { n: 1, title: "Name, neighbor, election day", line: "Open with your name, that you live nearby and that the election is close.", ready: true },
+  { n: 1, title: "How to introduce yourself at the door", line: "Open with your name, that you live nearby and that the election is close.", ready: true },
   { n: 2, title: "Ask, then listen", line: "Ask one real question and let them finish.", ready: true },
   { n: 3, title: "Don\u2019t argue, next door", line: "Thank them, mark it and move on. You\u2019ll also get a quick safety tip.", ready: true },
   { n: 4, title: "Plan when, where, how", line: "Help them say when, where and how they\u2019ll vote.", ready: true },
   { n: 5, title: "Ask for three friends", line: "Ask a supporter to remind three friends to vote.", ready: true },
 ];
+/* version 80: a title that reads as a phrase ("How to ...") goes lowercase inside a sentence, so "Lesson 1 of 5 is how to introduce yourself at the door." */
+const titleIn = (x) => (/^How to /.test(x) ? "h" + x.slice(1) : x);
 const DAYS = [
   { n: 5, name: "Monday", label: "5 days out" },
   { n: 3, name: "Wednesday", label: "3 days out" },
@@ -1266,7 +1281,7 @@ const TRACKS = {
     blurb: "Help supporters make a specific plan to vote.",
     org: { name: "Finnegan James for Woodbridge City Council", sub: "Saturday canvass", seal: "F" }, video: true,
     shift: "Saturday\u2019s canvass", place: "in your assigned turf", mine: "your canvass", when: "Saturday at 9 AM",
-    sms: "Hey {name}, it\u2019s Mia with the Finnegan James campaign. Thanks for signing up to canvass Saturday! Finnegan recorded a welcome for you, plus your first 5-minute lesson. Can you try it by Monday? (reply stop to opt out)",
+    sms: "Hey {name}, it\u2019s Mia with Finnegan James for City Council. Thanks for signing up to canvass! Before your in-person training, can you try this 5-minute canvass warmup by Monday? It starts with a welcome from Finnegan. (reply stop to opt out)",
     cadence: "In the final two weeks, every shift gets its own short practice the day before.",
     placement: {
       persona: "maria", scene: "door", who: "At a supporter\u2019s door",
@@ -1496,7 +1511,7 @@ const SKILLS = {
     door: "gary",
   },
   open: {
-    title: "Name, neighbor, election day",
+    title: "How to introduce yourself at the door",
     where: "at a supporter\u2019s door",
     whyLine: "people decide in seconds whether to keep talking. A warm, clear opener earns the rest of the conversation.",
     headsUp: "Never ask \u201cDo you have a minute?\u201d",
@@ -3328,14 +3343,14 @@ function tabBar(cur) {
 /* ---------- presenter notes ---------- */
 const NOTES = {
   pick: ["Every program in the cycle", "Signatures a year or more out, registration six months or more out, deep canvassing for persuasion in the months before and turnout in the final two weeks, at the door or by vote tripling at a busy site."],
-  video: ["A welcome from the candidate", "About a minute, one continuous take. Finnegan walks down a Woodbridge street, says why the campaign needs you at the door and explains that the in-person training comes first and Warmup is the head start (short lessons by text, spaced out). Then his iPhone fills the frame, in his hand, and plays one lesson the way the volunteer will meet it, timed to his words. It opens on Lesson 1 of 5 with its four parts, then a first try at Walter\u2019s door, See it done with the moves ticking, Find and fix, Kevin\u2019s door with the volunteer speaking out loud and Kevin talking back, the feedback and Lesson 1 done, with the ring at 1/5 and Saturday\u2019s 40 doors filling. The phone stays up through \u201cLesson one is how to open the door,\u201d then he asks you to complete lesson 1 now. A real candidate would film this themselves; this one is a Hedra video for the demo."],
+  video: ["A welcome from the candidate", "About a minute, one continuous take. Finnegan walks down a Woodbridge street, says why the campaign needs you at the door and explains that the in-person training comes first and Warmup is the head start (short lessons by text, spaced out). Then his iPhone fills the frame, in his hand, and plays one lesson the way the volunteer will meet it, timed to his words. It opens on lesson 1\u2019s opening (the four parts in the bar and Walter\u2019s shut door), then a first try at Walter\u2019s door, See it done with the moves ticking, Find and fix, Kevin\u2019s door with the volunteer speaking out loud and Kevin talking back, the feedback and Lesson 1 done, with the ring at 1/5 and Saturday\u2019s 40 doors filling. The phone stays up through \u201cLesson one is how to open the door,\u201d then he asks you to complete lesson 1 now. A real candidate would film this themselves; this one is a Hedra video for the demo."],
   sms: ["SMS-delivered", "Nobody has the campaign\u2019s number saved, so a real person signs the text and says who they\u2019re with. At sign-up the campaign says to expect it, so it never reads as spam. The link opens the lesson, with nothing to download. Testing with someone? Tell them first: you\u2019ll play a volunteer and talk out loud with a pretend voter."],
   welcome: ["Today: the plan around the shift", "Version 71 (How Warmup Teaches, approved Oct 12). One list: each lesson on its day, the Warmup Saturday at 8, the canvass at 9 and the Cooldown after. The ring shows readiness for the next shift: the five lessons, then the Warmup. One button for the next thing; a second lesson the same day opens a few hours later, so the button reads Do it now anyway. Four tabs: Today, Practice, Library, Me."],
   intake: ["Find your starting point (off the main path since version 64)", "One question: their experience. The heads-up that practice happens out loud comes right before they first speak: before the opener for veterans, after the four cards for first-timers. Each answer is reflected back, and the name comes from the sign-up list."],
   talk: ["Right before they speak (off the main path since version 64)", "The talk-or-type question waits until the first moment it matters, so first-timers aren\u2019t asked about practicing out loud before they know what Saturday looks like."],
   placement: ["Everyone shows their opener", "Since version 64 (Robert, Oct 11) there is no experience question and no talk-or-type question: the first try places you. A Knock first, so nobody is put on the spot; the box says typing works if you can\u2019t talk. A strong opener skips Watch. The first-timer cards still exist for the presenter menu and \u201cHow Saturday works\u201d: Saturday as a story: six tap-through cards (tap or swipe, auto-advancing like Instagram Stories), each a small animation and one line, ending on a pass with when, where, how long and what to bring. First-timers learn how a canvass works before any technique, and a concrete where and when makes people likelier to show up. Four cards, no test, so their first graded moment is a likely win. Veterans show their opener and get feedback on it right away, on the same screen that opens the lesson; a strong one skips the demo. No level on screen: placement changes what comes next, not a label. The heading says why we ask (version 65): the opener tells us where to start the lesson. The card shows the four moves as checks and the misses as what happened, like the scorecard (version 66). One rule, two paths (version 67): all four moves goes straight to Your turn, nothing re-taught; anything less gets the full lesson, with the reps picked from the moves they missed."],
   path: ["Today: the plan around the shift", "Get out the vote opens Today here (version 71): the five lessons on their days, the Warmup, the canvass and the Cooldown in one list. Other programs keep their three-lesson week."],
-  session: ["One lesson, four parts", "A lesson is one 5-minute sitting in four parts, always in this order: First try, See it done, Find and fix, then Your door. The bar, this opening and How Warmup works use the same names (version 72 renamed Try, Watch, Spot and Your turn, which read as clipped). The welcome video sits outside the lesson now, in onboarding. Other programs keep Watch, Practice, Your turn."],
+  session: ["One lesson, four parts", "Version 80 (Suman Gidwani\u2019s feedback): the opening says only what the lesson is and why it matters. The bar names the four parts in their order (First try, See it done, Find and fix, Your door) with First try lit, and the door the first try opens on sits below, so Start feels like walking up to it. A lesson is one 5-minute sitting. Other programs keep Watch, Practice, Your turn."],
   note: ["A word from the campaign", "Version 71: for get out the vote the campaign minute left the lessons. Where Saturday fits and How your list gets made are one-minute notes in the library and an optional card on the wrap, and the Warmup carries one line from the campaign. The one-tap question still feeds the split test on the director\u2019s view."],
   watch: ["See it done, with the moves outside the clip", "The four moves are named before the door plays and recapped after with the why. During the door only a quiet tick lands on each move, so attention stays on the conversation; people can\u2019t read and listen closely at once. The live strip along the frame\u2019s bottom edge is a menu toggle (Watch strip), so both versions can be tested. When the door ends, the frame folds down (or away on a short screen) so the recap fits a phone without scrolling. Every voter is a cartoon; in lesson 4, Maria keeps her recorded voice."],
   why: ["Why it works", "Each best practice comes with the research, rule or field experience behind it, labeled honestly."],
@@ -3364,7 +3379,7 @@ const NOTES = {
 /* ---------- state ---------- */
 /* version 68 (Robert, Oct 11): the demo opens on the first text for get out the vote; the program picker stays in the presenter menu */
 const fresh = () => ({
-  screen: "sms", track: "gotv", step: 1, name: store.get("volunteerName3", "Becca"), experience: null, why: "", hardest: null, mode: "voice", intakeDone: false, basicsI: 0, skipWatch: false, hist: [], spot: null,
+  screen: "sms", track: "gotv", step: 1, name: store.get("volunteerName4", "Suman"), experience: null, why: "", hardest: null, mode: "voice", intakeDone: false, basicsI: 0, skipWatch: false, hist: [], spot: null,
   level: 2, placement: null, placementText: "", day: 5, unlocked: { sig: 5, reg: 5, deep: 5, gotv: 5, trip: 5 },
   sessions: { sig: {}, reg: {}, deep: {}, gotv: {}, trip: {} }, reps: null, convo: null, last: null, placeKnocked: false, ask: null, asked: [], lessonAt: 0, cameraOn: false, lastAt: {}, rosterAll: false,
   streakBase: 2, debrief: { mood: null, change: "", why: "", sent: false }, whyI: 0, practice: null,
@@ -3383,7 +3398,8 @@ const settings = {
   ai: store.get("ai", "live"),
   watchStrip: store.get("watchStrip", "quiet"),
 };
-const me = () => S.name || "Becca";
+const REC_NAME = "Becca"; /* the name the volunteer's first recorded line says (version 76); the demo's default volunteer is Suman since version 79 */
+const me = () => S.name || "Suman";
 const T = () => TRACKS[S.track];
 /* get out the vote runs the 5 by 5 series: lesson 4 is the plan lesson, everything else uses lesson 1 (the opener) for now */
 const LESSON_SKILL = { 1: "open", 2: "listen", 3: "noargue", 4: "plan", 5: "friends" };
@@ -4091,7 +4107,7 @@ function vSMS() {
     <div class="sms-thread">
       <p class="sms-time">Sunday 6:41 PM</p>
       <div class="sms-bub">${t.sms.replace("{name}", esc(me()))}</div>
-      <button class="sms-card" data-act="go" data-arg="${t.video ? "video" : "welcome"}"><span class="art"><svg width="34" height="34" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="32" fill="none" stroke="#E6DFD3" stroke-width="12"/><circle cx="42" cy="42" r="32" fill="none" stroke="#35B57C" stroke-width="12" stroke-linecap="round" stroke-dasharray="67 202" transform="rotate(-90 42 42)"/></svg></span><span class="txt"><b>${t.video ? "A welcome from Finnegan + your first lesson" : "Your first practice"}</b><small>5 minutes, nothing to download</small></span></button>
+      <button class="sms-card" data-act="go" data-arg="${t.video ? "video" : "welcome"}"><span class="art"><svg width="34" height="34" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="32" fill="none" stroke="#E6DFD3" stroke-width="12"/><circle cx="42" cy="42" r="32" fill="none" stroke="#35B57C" stroke-width="12" stroke-linecap="round" stroke-dasharray="67 202" transform="rotate(-90 42 42)"/></svg></span><span class="txt"><b>${t.video ? "Your 5-minute canvass warmup" : "Your first practice"}</b><small>${t.video ? "Nothing to download, just tap and start" : "5 minutes, nothing to download"}</small></span></button>
       <p class="sms-hint">Tap the link to open the lesson</p>
     </div>
     <div class="sms-compose" aria-hidden="true">Text Message</div>
@@ -4104,7 +4120,7 @@ function videoScene() {
 }
 function videoCut() {
   /* the cutaway block (version 77, Robert): one lesson the way the volunteer meets it, then the lesson's end, so the phone sets the right picture of what comes next.
-     The lesson opening names the four parts; then First try at Walter's door, See it done with the moves ticking, Find and fix, Kevin's door with the
+     The lesson opening (since version 80, the four parts in its bar and Walter's shut door); then First try at Walter's door, See it done with the moves ticking, Find and fix, Kevin's door with the
      volunteer speaking out loud and Kevin talking back, the feedback and Lesson 1 done, with the ring at 1/5 and Saturday's 40 doors filling.
      Beats are seconds from line 5's start: data-at shows, data-lit lights and data-off hides; cutRun() applies them from the audio clock. Nothing here is live,
      and every score is what the graders return for these exact lines (openHits, Kevin's scripted reply, the try card's wording). */
@@ -4115,8 +4131,8 @@ function videoCut() {
   const got = hits.filter(Boolean).length, tried = tryHits.filter(Boolean).length, miss = hits.indexOf(false), level = got === 4 ? "strong" : got >= 2 ? "ok" : "weak";
   const said = (from, dur, text) => `<span class="cut-said-txt" data-from="${from}" data-for="${dur}" data-full="${esc(text)}"></span>`;
   const voice = (live, talk, dur, off, label) => `<div class="cut-voice" data-live="${live}" data-talk="${talk}" data-for="${dur}"${off ? ` data-off="${off}"` : ""}><span class="cut-mic"><span class="cut-pulse"></span><span class="cut-pulse p2"></span>${ICON.mic}</span><span><span class="cut-wave">${"<i></i>".repeat(12)}</span><p class="cut-vlabel">${label}</p></span></div>`;
-  /* the lesson opening, as vSessionG draws it: Lesson 1 of 5, the title and the four parts */
-  const open = `<div class="cut-screen cut-open">${barHtml(1, -1, 0)}<p class="kicker">Lesson 1 of 5 \u00b7 ${lessonMin(1)} min</p><h1 class="h1">${sk.title}</h1><dl class="parts brief">${partRows(1, sk, d).map(([b, x], j) => `<div class="cut-rev" data-at="${CUT_ROWS[j]}"><dt>${b}</dt><dd>${x}</dd></div>`).join("")}</dl></div>`;
+  /* the lesson opening, as vSessionG draws it (version 80): the bar with First try lit, Lesson 1 of 5, the title, why it matters and Walter's shut door, which slides in at CUT_ROWS[0] */
+  const open = `<div class="cut-screen cut-open"><div class="open-bar">${lessonBarHtml(1, [0.75, 1, 0.75, 1.5], -1, 0, false, false, 0)}</div><p class="kicker">Lesson 1 of 5 \u00b7 ${lessonMin(1)} min</p><h1 class="h1">${sk.title}</h1><p class="why-line open-why">${LINE5.open}</p><div class="frame small open-door cut-rev" data-at="${CUT_ROWS[0]}">${scene("door", f.persona, { shut: true, crop: true, label: "Walter\u2019s front door, still shut" })}</div></div>`;
   /* First try: Walter opens the door, the volunteer answers out loud before any teaching, and the card says only what went right */
   const tryCard = `You ${andList(f.did.filter((_, i) => tryHits[i]))}. ${tried ? `Watch for the other ${NUMW[4 - tried]}.` : "Watch for all four."}`;
   const tryS = `<div class="cut-screen cut-try">${barHtml(1, 0, 0.5)}<h2 class="h2 tight">The door opens. How would you start?</h2><div class="rep-card"><div class="frame small mini">${scene("door", f.persona, { label: "Walter at the door" })}</div><p class="rep-quote"><b>${sk.lesson.name}:</b> \u201c${f.line}\u201d</p></div>${voice(C[1] + 0.2, C[1] + 0.4, 0.9, C[1] + 1.7, said(C[1] + 0.4, 0.9, tryLine))}<div class="fb try cut-rev" data-at="${C[1] + 1.7}"><h3>Nice start.</h3><p>${tryCard}</p></div></div>`;
@@ -4151,7 +4167,7 @@ function vVideo() {
       <div class="vid-head"><span class="seal" aria-hidden="true">${t.org.seal}</span><b>${t.org.name}</b>
         ${ended ? "" : `<button class="vid-pp" data-act="video-toggle" aria-label="${V.playing ? "Pause" : "Play"}">${pp}</button>`}<button data-act="video-skip">${ended ? "Close" : "Skip"}</button></div></div>
     ${ended
-      ? `<div class="vid-end"><p>Lesson 1 of 5 is ${LESSONS5[0].title}. You\u2019ll give it a first try, see it done, find and fix a miss and then take a door yourself. It takes about ${lessonMin(1)} minutes.</p><button class="btn" data-act="video-skip">Start lesson 1</button><button class="link" data-act="video-again">Watch again</button></div>`
+      ? `<div class="vid-end"><p>Lesson 1 of 5 is ${titleIn(LESSONS5[0].title)}. You\u2019ll give it a first try, see it done, find and fix a miss and then take a door yourself. It takes about ${lessonMin(1)} minutes.</p><button class="btn" data-act="video-skip">Start lesson 1</button><button class="link" data-act="video-again">Watch again</button></div>`
       : `<div class="vid-cap" aria-live="polite" id="vid-cap"><p>${V.started ? esc(WELCOME.lines[Math.min(V.i, n - 1)].text) : "A welcome from Finnegan James"}</p></div>`}
     ${!V.started ? `<button class="vid-play" data-act="video-toggle" aria-label="Play the welcome video"><svg width="26" height="26" viewBox="0 0 14 14" aria-hidden="true"><path d="M3.5 1.5 L12.5 7 L3.5 12.5 Z" fill="currentColor"/></svg></button>` : ""}
   </div>`;
@@ -5403,7 +5419,7 @@ function partMins(n = lessonNo()) { const skip = skipNow(); return [0.75, skip ?
 const lessonMin = (n) => Math.max(1, Math.round(0.25 + [0.75, 1, 0.75, n === 1 ? 1.5 : 2].reduce((a, b) => a + b, 0) + 0.5));
 function lessonBar(part, fill = 0) { const n = lessonNo(); return lessonBarHtml(n, partMins(n), part, fill, skipNow(), true); }
 /* version 77: the bar's markup on its own, so the video's phone draws lesson 1's bar without reading the volunteer's state (and without the live id) */
-function lessonBarHtml(n, m, part, fill, skipped, live) {
+function lessonBarHtml(n, m, part, fill, skipped, live, here) {
   const done = part >= 4, f = Math.max(0, Math.min(1, fill || 0));
   const fills = m.map((_, i) => (i < part ? 100 : i === part ? Math.round(f * 100) : 0));
   if (skipped && part >= 1) { fills[1] = 100; fills[2] = 100; }
@@ -5411,8 +5427,8 @@ function lessonBarHtml(n, m, part, fill, skipped, live) {
   const left = Math.max(1, Math.round(rest));
   const label = done ? `Lesson ${n} complete` : part < 0 ? `Lesson ${n}` : `Lesson ${n}: ${PARTS4[part]}`;
   const right = done ? "Done" : `About ${left} min left`;
-  const segs = m.map((_, i) => `<i${live && i === part ? ' id="sbar-now"' : ""}><span style="width:${fills[i]}%"></span></i>`).join("");
-  return `<div class="sbar" aria-label="${label}, ${right}"><div class="sbar-segs" style="grid-template-columns:repeat(4,1fr)">${segs}</div>${barNames(PARTS4, part)}<div class="sbar-row"><span>${label}</span><span>${right}</span></div></div>`;
+  const segs = m.map((_, i) => `<i${live && i === part ? ' id="sbar-now"' : ""}${i === here ? ' class="now"' : ""}><span style="width:${fills[i]}%"></span></i>`).join("");
+  return `<div class="sbar" aria-label="${label}, ${right}"><div class="sbar-segs" style="grid-template-columns:repeat(4,1fr)">${segs}</div>${barNames(PARTS4, part < 0 && here != null ? here : part)}<div class="sbar-row"><span>${label}</span><span>${right}</span></div></div>`;
 }
 const barHtml = (n, part, fill) => lessonBarHtml(n, [0.75, 1, 0.75, n === 1 ? 1.5 : 2], part, fill, false, false);
 function warmBar(part, fill = 0) {
@@ -5434,7 +5450,7 @@ function gotvBar(fill) {
 }
 
 /* ---------- the lesson: opening, Try, Spot (Watch and Your turn are the shared screens, adjusted for get out the vote) ---------- */
-/* version 77: the lesson opening's four rows, shared with the video's phone */
+/* version 77: the lesson opening's four rows (unused since version 80, which moved the parts into the bar; kept for the test hooks) */
 function partRows(n, sk, d) {
   return [
     [PARTS4[0], n === 1 ? "Open the door your way. There\u2019s no wrong answer." : "Say what you\u2019d say next. There\u2019s no wrong answer."],
@@ -5444,15 +5460,15 @@ function partRows(n, sk, d) {
   ];
 }
 function vSessionG() {
-  const n = lessonNo(), sk = SK(), k = skKey(), d = DOORS[sk.door];
-  const rows = partRows(n, sk, d);
+  /* version 80 (Suman Gidwani's feedback, Robert's build): the opening says only what the lesson is and why it matters. The bar carries the four parts
+     with First try lit as the place you are, and the door the first try opens on sits below, full width, so Start feels like walking up to it */
+  const n = lessonNo(), sk = SK(), k = skKey(), f = FLOW[k], L = sk.lesson;
   return app(`
-    ${lessonBar(-1)}
+    <div class="open-bar">${lessonBarHtml(n, partMins(n), -1, 0, skipNow(), true, 0)}</div>
     <p class="kicker">Lesson ${n} of 5 \u00b7 ${lessonMin(n)} min</p>
     <h1 class="h1">${sk.title}</h1>
-    <p class="why-line">${LINE5[k] || sk.whyLine}</p>
-    <p class="why-line"><b>No script to memorize.</b> Learn four moves and say them your way.</p>
-    <dl class="parts brief">${rows.map(([b, x]) => `<div><dt>${b}</dt><dd>${x}</dd></div>`).join("")}</dl>
+    <p class="why-line open-why">${LINE5[k] || sk.whyLine}</p>
+    <div class="frame small open-door">${scene("door", f.persona, { shut: true, label: `${L.name}\u2019s front door, still shut` })}</div>
   `, { tag: "", back: "welcome", primary: ["Start your first try", "try-start"] });
 }
 /* Try: one line before any teaching. Feedback is positive only, never a grade; all four moves skips Watch and Spot (version 67's rule, every lesson) */
@@ -5640,12 +5656,12 @@ function vCoach() {
   const d5 = S.done5 || {}, td = TOUGH.find((x) => x.id === coachPicks()[0]);
   const L = S.last && S.last.moves && S.last.moves.some((m) => !m) && MOVE_OK[S.last.skill] ? S.last : null;
   let pick;
-  if (td && td.door) pick = { title: `Tough door: ${td.title}`, sub: `${DOORS[td.door].name}, ${DOORS[td.door].brief}. It sharpens ${LESSONS5[td.lesson - 1].title}.`, door: td.door };
+  if (td && td.door) pick = { title: `Tough door: ${td.title}`, sub: `${DOORS[td.door].name}, ${DOORS[td.door].brief}. It sharpens ${titleIn(LESSONS5[td.lesson - 1].title)}.`, door: td.door };
   else if (td && S.coolDoor === td.id) pick = { title: `Tough door: ${td.title}`, sub: "From your Cooldown. The coach will play this one soon, and one like it is on your next Warmup.", lib: "tough:" + td.id };
   else if (L) { const door = SKILLS[L.skill].door, mi = L.moves.findIndex((m) => !m); pick = { title: `${DOORS[door].name}\u2019s door, again`, sub: `Last time: ${lowerFirst(SKILLS[L.skill].missNames[mi])}. One more door makes it stick.`, door }; }
   else pick = { title: "Tough door: An angry voter", sub: `${DOORS.gloria.name}, ${DOORS.gloria.brief}. It sharpens ${LESSONS5[2].title}.`, door: "gloria" };
   const five = LESSONS5.map((x) => { const sk = SKILLS[LESSON_SKILL[x.n]], d = DOORS[sk.door]; return `<li><button data-act="coach-door" data-arg="${sk.door}"><span class="p-num">${x.n}</span><span><b>${d.name}\u2019s door</b><small>${x.title}${d5[x.n] ? "" : ` \u00b7 best after lesson ${x.n}`}</small></span><span class="small">${d.short ? "1 min" : "2 min"}</span></button></li>`; }).join("");
-  const tough = TOUGH.map((x) => `<li><button data-act="${x.door ? "coach-door" : "lib-open"}" data-arg="${x.door || "tough:" + x.id}">${trAv(x.by)}<span><b>${x.title}</b><small>Sharpens ${LESSONS5[x.lesson - 1].title}</small></span>${x.door ? `<i class="lib-ready">Ready</i>` : `<span class="small">Soon</span>`}</button></li>`).join("");
+  const tough = TOUGH.map((x) => `<li><button data-act="${x.door ? "coach-door" : "lib-open"}" data-arg="${x.door || "tough:" + x.id}">${trAv(x.by)}<span><b>${x.title}</b><small>Sharpens ${titleIn(LESSONS5[x.lesson - 1].title)}</small></span>${x.door ? `<i class="lib-ready">Ready</i>` : `<span class="small">Soon</span>`}</button></li>`).join("");
   const shuffle = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h3c4 0 6 10 10 10h3M4 17h3c1.6 0 2.8-1.6 3.9-3.6M14 9.6C15.1 8 16.3 7 17 7h3M17 4l3 3-3 3M17 14l3 3-3 3"/></svg>`;
   return app(`
     <h1 class="h1">Practice</h1>
@@ -5733,7 +5749,7 @@ function coolSay() {
 }
 
 /* ---------- the library for get out the vote: three shelves, with top canvassers inside them ---------- */
-function toughItem(td) { return { id: "tough:" + td.id, tough: td.id, title: td.title, by: td.by, min: 3, door: td.door, learn: ["A door with the coach, then one tip", "Sharpens " + LESSONS5[td.lesson - 1].title] }; }
+function toughItem(td) { return { id: "tough:" + td.id, tough: td.id, title: td.title, by: td.by, min: 3, door: td.door, learn: ["A door with the coach, then one tip", "Sharpens " + titleIn(LESSONS5[td.lesson - 1].title)] }; }
 function libSectionsG() {
   const picks = coachPicks();
   const five = { id: "five", title: "Your five", items: LESSONS5.map((L) => ({ id: "lesson:" + L.n, lesson: L.n, title: L.title, by: LESSON_BY[L.n], min: 5, learn: [] })) };
@@ -5768,7 +5784,7 @@ function vTrainingG(it) {
       ${hero}
       <p class="kicker">Tough doors${coachPicks().includes(td.id) ? " \u00b7 picked for you" : ""}</p>
       <h1 class="h1">${it.title}</h1>
-      <p class="lede">3 min: a door with the coach, then one tip. It sharpens ${LESSONS5[td.lesson - 1].title}.</p>
+      <p class="lede">3 min: a door with the coach, then one tip. It sharpens ${titleIn(LESSONS5[td.lesson - 1].title)}.</p>
       ${td.door ? `<p class="why-line">${DOORS[td.door].name} plays this one: ${DOORS[td.door].brief}.</p>` : ""}
       ${sheet}
     `, { tag: "Library", back: "library", primary, secondary });
@@ -5921,8 +5937,8 @@ async function playLesson() {
     if (watchSet(L.persona)) { try { wb = await watchAudio(L.persona); } catch (e) { wb = null; } }
     if (run !== lessonRun) return;
     const k = L.lines.slice(0, i).filter((l) => l.who === line.who).length;
-    // the volunteer's first line was recorded as Becca (version 76), so another name falls back to the browser voice
-    const buf = wb ? (line.who === "them" ? wb.them[k] : (/\{name\}/.test(line.text) && me() !== "Becca" ? null : wb.you[k])) : null;
+    // the volunteer's first line was recorded as Becca (version 76; the default volunteer has been Suman since version 79), so another name falls back to the browser voice
+    const buf = wb ? (line.who === "them" ? wb.them[k] : (/\{name\}/.test(line.text) && me() !== REC_NAME ? null : wb.you[k])) : null;
     if (buf) {
       if (line.who === "them") talk(true);
       await playWatchBuf(buf);
@@ -6861,7 +6877,7 @@ document.addEventListener("input", (e) => {
   if (t.id === "lib-q") { S.lib.q = t.value; const r = $("#lib-rows"); if (r) r.innerHTML = libRows(); }
   if (t.id === "d-change") S.review.change = t.value;
   if (t.id === "d-why") S.review.why = t.value;
-  if (t.id === "v-name") { S.name = t.value.trim() || "Becca"; store.set("volunteerName3", S.name); S.nameDirty = true; }
+  if (t.id === "v-name") { S.name = t.value.trim() || "Suman"; store.set("volunteerName4", S.name); S.nameDirty = true; }
 });
 document.addEventListener("change", (e) => {
   const t = e.target;
@@ -6884,4 +6900,3 @@ render();
 </script>
 </body>
 </html>
-
